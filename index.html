@@ -1,45 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Proof of Existence - Minima</title>
+  <title>Minima Pixel Board</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="app">
+<h2>🎨 Minima Pixel Board</h2>
+<p id="status">Connecting...</p>
 
-  <!-- TOP -->
-  <div class="topbar">
-    <div>
-      <h1>🔐 Proof DApp</h1>
-      <p id="walletStatus">Connecting...</p>
-    </div>
-  </div>
+<input type="color" id="colorPicker" value="#ff0000">
 
-  <!-- SAVE -->
-  <div class="card">
-    <h3>Save Proof</h3>
-    <input id="dataInput" placeholder="Enter text or file hash">
-    <button onclick="saveData()">Save to Blockchain</button>
-  </div>
-
-  <!-- VERIFY -->
-  <div class="card">
-    <h3>Verify Proof</h3>
-    <input id="verifyInput" placeholder="Enter same text to verify">
-    <button onclick="verifyData()">Verify</button>
-    <p id="verifyResult"></p>
-  </div>
-
-  <!-- LIST -->
-  <div class="card">
-    <h3>Stored Proofs</h3>
-    <ul id="entries"></ul>
-  </div>
-
-</div>
+<div id="grid"></div>
 
 <script src="app.js"></script>
 
