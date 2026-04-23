@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Minima Lottery</title>
+  <title>Proof of Existence - Minima</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -10,65 +10,35 @@
 
 <div class="app">
 
-  <!-- TOP BAR -->
+  <!-- TOP -->
   <div class="topbar">
     <div>
-      <h1>🎲 Minima Lottery</h1>
+      <h1>🔐 Proof DApp</h1>
       <p id="walletStatus">Connecting...</p>
     </div>
-    <div class="avatar">🟣</div>
   </div>
 
-  <!-- BALANCE CARD -->
-  <div class="balance-card">
-    <p class="label">Total Prize Pool</p>
-    <h2 id="prizePool">0.00000000 MINIMA</h2>
-    <p class="subtext">Ticket Price: 0.0000001 MINIMA</p>
-  </div>
-
-  <!-- ACTION -->
-  <div class="action-card">
-  <button onclick="buyTicket()">Buy Ticket</button>
-  <button onclick="claimReward()">Claim Reward</button>
-  </div>
-
-  <!-- TIMER -->
+  <!-- SAVE -->
   <div class="card">
-    <p class="label">Next Draw (24h)</p>
-    <h2 id="timer">--:--:--</h2>
+    <h3>Save Proof</h3>
+    <input id="dataInput" placeholder="Enter text or file hash">
+    <button onclick="saveData()">Save to Blockchain</button>
   </div>
 
-  <!-- ENTRIES -->
+  <!-- VERIFY -->
   <div class="card">
-    <div class="row">
-      <h3>Tickets</h3>
-      <span id="entryCount">0</span>
-    </div>
+    <h3>Verify Proof</h3>
+    <input id="verifyInput" placeholder="Enter same text to verify">
+    <button onclick="verifyData()">Verify</button>
+    <p id="verifyResult"></p>
+  </div>
+
+  <!-- LIST -->
+  <div class="card">
+    <h3>Stored Proofs</h3>
     <ul id="entries"></ul>
   </div>
 
-  <!-- STATS -->
-  <div class="card">
-    <h3>Your Stats</h3>
-    <p id="yourStats">Not connected</p>
-  </div>
-
-</div>
-
-<!-- WINNER POPUP -->
-<div id="winnerPopup" class="modal hidden">
-  <div class="modal-content">
-    <h2 id="winnerText">🎉 Winner!</h2>
-    <button onclick="document.getElementById('winnerPopup').classList.add('hidden')">Close</button>
-  </div>
-</div>
-
-<!-- BOTTOM NAV -->
-<div class="nav">
-  <div class="nav-item active">🏠</div>
-  <div class="nav-item">🎟</div>
-  <div class="nav-item">🏆</div>
-  <div class="nav-item">⚙️</div>
 </div>
 
 <script src="app.js"></script>
