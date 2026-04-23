@@ -369,4 +369,4 @@ function switchTab(tabName) {
     document.querySelectorAll('.nav-item')[3].classList.add('active');
     document.getElementById('info-tab').classList.remove('hidden');
   }
-    }
+}
