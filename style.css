@@ -2,28 +2,16 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: #f3f0ff;
-  color: #111;
 }
 
-/* APP WRAPPER */
 .app {
   max-width: 420px;
   margin: auto;
   padding: 20px;
-  padding-bottom: 80px;
-}
-
-/* TOP BAR */
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
 }
 
 .topbar h1 {
   margin: 0;
-  font-size: 18px;
 }
 
 .topbar p {
@@ -31,187 +19,50 @@ body {
   color: #777;
 }
 
-.avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-}
-
-/* BALANCE */
-.balance-card {
-  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
-  color: white;
-  border-radius: 20px;
-  padding: 20px;
-  margin-bottom: 16px;
-}
-
-.balance-card h2 {
-  margin: 8px 0;
-  font-size: 24px;
-}
-
-.balance-card .label {
-  margin: 0;
-}
-
-.balance-card .subtext {
-  margin: 8px 0 0 0;
-  font-size: 12px;
-  opacity: 0.9;
-}
-
-/* ACTION */
-.action-card {
-  margin-bottom: 16px;
-}
-
-button {
-  width: 100%;
-  padding: 14px;
-  border-radius: 10px;
-  border: none;
-  font-weight: 600;
-  background: #111;
-  color: white;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #333;
-}
-
-button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
-
-/* CARD */
 .card {
   background: white;
   border-radius: 16px;
   padding: 16px;
-  margin-bottom: 12px;
+  margin-top: 16px;
   box-shadow: 0 6px 16px rgba(0,0,0,0.05);
 }
 
-.card h3 {
-  margin: 0 0 12px 0;
+input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
 }
 
-.label {
-  font-size: 12px;
-  color: #999;
-  margin: 0 0 8px 0;
-}
-
-/* ROW */
-.row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.row h3 {
-  margin: 0;
-}
-
-.row span {
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: none;
   background: #6c5ce7;
   color: white;
-  border-radius: 12px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 600;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-/* ENTRIES */
-#entries {
+button:hover {
+  background: #5848c2;
+}
+
+ul {
   list-style: none;
   padding: 0;
-  margin: 0;
 }
 
-#entries li {
+li {
   background: #f8f7ff;
   border-radius: 10px;
   padding: 10px;
   margin-top: 8px;
-  font-size: 13px;
 }
 
-#entries li.mine {
-  background: #e8f5e9;
-  border-left: 3px solid #4caf50;
-}
-
-#entries li small {
-  color: #999;
-  font-size: 11px;
-}
-
-/* MODAL */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal.hidden {
-  display: none;
-}
-
-.modal-content {
-  background: white;
-  border-radius: 20px;
-  padding: 24px;
-  max-width: 90%;
-  text-align: center;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-}
-
-.modal-content h2 {
-  margin: 0 0 16px 0;
-  font-size: 24px;
-}
-
-.modal-content button {
-  margin-top: 16px;
-}
-
-/* NAV BAR */
-.nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  max-width: 420px;
-  margin: auto;
-  background: white;
-  display: flex;
-  justify-content: space-around;
-  padding: 12px 0;
-  border-top: 1px solid #eee;
-}
-
-.nav-item {
-  font-size: 18px;
-  color: #aaa;
-  cursor: pointer;
-}
-
-.nav-item.active {
-  color: #6c5ce7;
+small {
+  color: #777;
 }
