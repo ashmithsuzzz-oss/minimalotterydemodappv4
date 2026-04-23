@@ -109,8 +109,14 @@ function paintPixel(x, y) {
         color = color.replace("#", "");
 
         const state = {};
-        state[0] = x + "," + y;
-        state[1] = color;
+        let color = document.getElementById("colorPicker").value;
+
+// remove #
+color = color.replace("#", "");
+
+// 🔥 store as single string
+const state = {};
+state[99] = x + "," + y + "|" + color;
 
         console.log("Sending:", state);
 
