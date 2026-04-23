@@ -69,26 +69,10 @@ body {
 /* ACTION */
 .action-card {
   margin-bottom: 16px;
-  display: flex;
-  gap: 10px;
-}
-
-.action-card input {
-  flex: 0 0 100px;
-  padding: 12px;
-  border: 2px solid #ddd;
-  border-radius: 10px;
-  font-size: 14px;
-  text-align: center;
-}
-
-.action-card input:focus {
-  outline: none;
-  border-color: #6c5ce7;
 }
 
 button {
-  flex: 1;
+  width: 100%;
   padding: 14px;
   border-radius: 10px;
   border: none;
@@ -96,6 +80,10 @@ button {
   background: #111;
   color: white;
   cursor: pointer;
+}
+
+button:hover {
+  background: #333;
 }
 
 button:disabled {
@@ -133,6 +121,15 @@ button:disabled {
   margin: 0;
 }
 
+.row span {
+  background: #6c5ce7;
+  color: white;
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
 /* ENTRIES */
 #entries {
   list-style: none;
@@ -146,6 +143,52 @@ button:disabled {
   padding: 10px;
   margin-top: 8px;
   font-size: 13px;
+}
+
+#entries li.mine {
+  background: #e8f5e9;
+  border-left: 3px solid #4caf50;
+}
+
+#entries li small {
+  color: #999;
+  font-size: 11px;
+}
+
+/* MODAL */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h2 {
+  margin: 0 0 16px 0;
+  font-size: 24px;
+}
+
+.modal-content button {
+  margin-top: 16px;
 }
 
 /* NAV BAR */
@@ -166,6 +209,7 @@ button:disabled {
 .nav-item {
   font-size: 18px;
   color: #aaa;
+  cursor: pointer;
 }
 
 .nav-item.active {
