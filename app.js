@@ -1,43 +1,23 @@
 // ===============================
 // ⚙ CONFIG
 // ===============================
-const LOTTERY_ADDRESS = "0xA7F3C9B2E8D641";
-const PRIZE_COIN_ID = "0xPRIZECOIN"; // <-- replace after creating prize coin
-const DRAW_BLOCK = 100000;
-const TICKET_PRICE = 0.0000001;
+const APP_ADDRESS = "0xA7F3C9B2E8D641";
+const FEE = 0.0000001;
 
 let entries = [];
 
 // DOM
-let entriesList, entryCount, walletStatus, yourStats, prizePool, timer;
+let walletStatus, entriesList, verifyResult;
 
 
 // ===============================
-// 🔧 WALLET SAFE EXTRACT
-// ===============================
-function getWalletAddress(res) {
-    if (!res || !res.status) return null;
-
-    const d = res.data;
-
-    if (typeof d === "string") return d;
-    if (typeof d === "object") return d.address || d.data;
-
-    return null;
-}
-
-
-// ===============================
-// INIT
+// 🔧 INIT
 // ===============================
 window.onload = function () {
 
-    entriesList = document.getElementById("entries");
-    entryCount = document.getElementById("entryCount");
     walletStatus = document.getElementById("walletStatus");
-    yourStats = document.getElementById("yourStats");
-    prizePool = document.getElementById("prizePool");
-    timer = document.getElementById("timer");
+    entriesList = document.getElementById("entries");
+    verifyResult = document.getElementById("verifyResult");
 
     if (typeof MINIMASK !== "undefined") {
 
@@ -45,85 +25,70 @@ window.onload = function () {
 
             if (msg.event === "MINIMASK_INIT") {
 
-                if (!msg.data || !msg.data.data || !msg.data.data.loggedon) {
+                if (!msg.data.data.loggedon) {
                     walletStatus.innerText = "❌ Not logged in";
                     return;
                 }
 
                 walletStatus.innerText = "✅ Connected";
-                loadEntries();
-            }
-
-            if (msg.event === "MINIMASK_PENDING") {
-                setTimeout(loadEntries, 6000);
+                loadData();
             }
         });
 
     } else {
         walletStatus.innerText = "❌ MiniMask not found";
     }
-
-    startBlockCheck();
 };
 
 
 // ===============================
-// BUY TICKET (ON-CHAIN)
+// 🔐 SAVE DATA
 // ===============================
-function buyTicket() {
+function saveData() {
 
-    MINIMASK.account.getAddress(function (res) {
+    const text = document.getElementById("dataInput").value;
 
-        const wallet = getWalletAddress(res);
-        if (!wallet) return alert("Wallet error");
+    if (!text) {
+        alert("Enter something");
+        return;
+    }
 
-        MINIMASK.meg.listcoins(LOTTERY_ADDRESS, "0x00", "", function (resp) {
+    const time = new Date().toISOString();
 
-            let totalTickets = 0;
+    const state = {};
+    state[0] = text;
+    state[1] = time;
 
-            if (resp && resp.data) {
-                totalTickets = resp.data.length;
+    MINIMASK.account.send(
+        FEE,
+        APP_ADDRESS,
+        "0x00",
+        state,
+        function (resp) {
+
+            if (resp.pending) {
+                alert("Saved! Approve in MiniMask");
+                setTimeout(loadData, 5000);
+            } else {
+                alert("Error: " + (resp.error || "Unknown"));
             }
-
-            const ticketIndex = totalTickets;
-
-            const state = {};
-            state[0] = wallet;
-            state[1] = "ROUND1";
-            state[2] = ticketIndex;
-            state[3] = Date.now();
-
-            MINIMASK.account.send(
-                TICKET_PRICE,
-                LOTTERY_ADDRESS,
-                "0x00",
-                state,
-                function (resp) {
-
-                    if (resp.pending) {
-                        alert("Approve transaction");
-                    } else {
-                        alert("Error");
-                    }
-                }
-            );
-        });
-    });
+        }
+    );
 }
 
 
 // ===============================
-// LOAD ENTRIES
+// 📥 LOAD DATA
 // ===============================
-function loadEntries() {
+function loadData() {
 
-    MINIMASK.meg.listcoins(LOTTERY_ADDRESS, "0x00", "", function (resp) {
+    MINIMASK.meg.listcoins(APP_ADDRESS, "0x00", "", function (resp) {
 
         entries = [];
         let html = "";
 
         if (!resp || !resp.data) {
-            entriesList.innerHTML = "<li>No entries</li>";
+            entriesList.innerHTML = "<li>No data</li>";
             return;
         }
 
@@ -131,117 +96,48 @@ function loadEntries() {
 
             if (!coin.state) continue;
 
-            const wallet = coin.state[0];
-            const index = coin.state[2];
-            const time = coin.state[3];
+            const text = coin.state[0];
+            const time = coin.state[1];
 
-            entries.push({ wallet, index, time });
+            if (!text) continue;
+
+            entries.push({ text, time });
 
             html += `
             <li>
-                🎟 Ticket #${index}
-                <br><small>${new Date(time).toLocaleString()}</small>
+                📄 ${text}<br>
+                <small>${time}</small>
             </li>`;
         }
 
-        entriesList.innerHTML = html;
-        entryCount.innerText = entries.length;
-
-        updatePool();
+        entriesList.innerHTML = html || "<li>No data yet</li>";
     });
 }
 
 
 // ===============================
-// POOL
+// 🔍 VERIFY DATA
 // ===============================
-function updatePool() {
-    const pool = entries.length * TICKET_PRICE;
-    prizePool.innerText = pool.toFixed(8) + " MINIMA";
-}
+function verifyData() {
 
+    const input = document.getElementById("verifyInput").value;
 
-// ===============================
-// BLOCK CHECK (NO FAKE TIMER)
-// ===============================
-function startBlockCheck() {
-
-    setInterval(() => {
-
-        MINIMASK.system.getblock(function (block) {
-
-            const current = block.data.block;
-
-            const left = DRAW_BLOCK - current;
-
-            if (left <= 0) {
-                timer.innerText = "DRAW READY";
-            } else {
-                timer.innerText = "Blocks left: " + left;
-            }
-
-        });
-
-    }, 5000);
-}
-
-
-// ===============================
-// HASH
-// ===============================
-function hashCode(str) {
-    let hash = 0;
-    str = String(str);
-
-    for (let i = 0; i < str.length; i++) {
-        hash = ((hash << 5) - hash) + str.charCodeAt(i);
-        hash |= 0;
+    if (!input) {
+        verifyResult.innerText = "Enter something";
+        return;
     }
 
-    return hash;
+    const found = entries.find(e => e.text === input);
+
+    if (found) {
+        verifyResult.innerText = "✅ Verified! Exists since: " + found.time;
+    } else {
+        verifyResult.innerText = "❌ Not found on blockchain";
+    }
 }
 
 
 // ===============================
-// CLAIM REWARD
+// 🔄 AUTO REFRESH
 // ===============================
-function claimReward() {
-
-    MINIMASK.system.getblock(function (block) {
-
-        const blockNumber = block.data.block;
-
-        const total = entries.length;
-
-        if (total === 0) return alert("No tickets");
-
-        const winnerIndex =
-            Math.abs(hashCode(blockNumber + PRIZE_COIN_ID)) % total;
-
-        MINIMASK.account.getAddress(function (res) {
-
-            const wallet = getWalletAddress(res);
-
-            let isWinner = false;
-
-            for (let e of entries) {
-                if (e.wallet === wallet && e.index == winnerIndex) {
-                    isWinner = true;
-                    break;
-                }
-            }
-
-            if (!isWinner) {
-                return alert("Not winner");
-            }
-
-            alert("You are winner! Submit claim TX in terminal.");
-        });
-    });
-}
-
-
-// ===============================
-// AUTO REFRESH
-// ===============================
-setInterval(loadEntries, 8000);
+setInterval(loadData, 10000);
