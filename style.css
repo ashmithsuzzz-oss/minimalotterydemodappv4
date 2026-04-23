@@ -1,0 +1,412 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f3f0ff;
+  color: #111;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* APP WRAPPER */
+.app {
+  max-width: 420px;
+  margin: auto;
+  padding: 20px;
+  padding-bottom: 100px;
+}
+
+/* TOP BAR */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.topbar p {
+  font-size: 12px;
+  color: #777;
+  margin: 4px 0 0 0;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 24px;
+}
+
+/* INFO CARD */
+.info-card {
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.info-card h3 {
+  margin: 0 0 8px 0;
+  color: #e65100;
+}
+
+.info-card p {
+  margin: 0;
+}
+
+/* BALANCE */
+.balance-card {
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+  color: white;
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 24px rgba(108, 92, 231, 0.2);
+}
+
+.balance-card h2 {
+  margin: 12px 0 8px 0;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.balance-card .label {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.balance-card .subtext {
+  margin: 8px 0 0 0;
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+/* ACTION CARD */
+.action-card {
+  margin-bottom: 16px;
+  display: flex;
+  gap: 10px;
+}
+
+.action-card input {
+  flex: 0 0 80px;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.action-card input:focus {
+  outline: none;
+  border-color: #6c5ce7;
+}
+
+button {
+  flex: 1;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  background: #6c5ce7;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: #5f4fd1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* CARD */
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.card h3 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+}
+
+.card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.label {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 8px;
+}
+
+.subtext {
+  font-size: 12px;
+  color: #999;
+  margin-top: 8px;
+}
+
+.badge {
+  display: inline-block;
+  background: #6c5ce7;
+  color: white;
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ROW */
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.row h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+/* ENTRIES */
+#entries {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#entries li {
+  background: #f8f7ff;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#entries li strong {
+  color: #6c5ce7;
+}
+
+#winnersList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#winnersList li {
+  background: #e8f5e9;
+  border-left: 4px solid #4caf50;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+/* MODAL */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-content h2 {
+  margin: 0 0 16px 0;
+  font-size: 24px;
+}
+
+.modal-content p {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #999;
+}
+
+.close:hover {
+  color: #333;
+}
+
+/* STATUS MESSAGE */
+.status-message {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  max-width: 380px;
+  padding: 14px;
+  border-radius: 10px;
+  background: #4caf50;
+  color: white;
+  font-size: 13px;
+  z-index: 999;
+  animation: slideDown 0.3s ease;
+}
+
+.status-message.hidden {
+  display: none;
+}
+
+.status-message.error {
+  background: #f44336;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* TABS */
+.tab {
+  max-width: 420px;
+  margin: auto;
+  padding: 20px;
+  padding-bottom: 100px;
+}
+
+.tab.hidden {
+  display: none;
+}
+
+/* NAV BAR */
+.nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: 420px;
+  margin: auto;
+  background: white;
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 0;
+  border-top: 1px solid #eee;
+  z-index: 100;
+}
+
+.nav-item {
+  font-size: 20px;
+  color: #aaa;
+  cursor: pointer;
+  padding: 8px;
+  text-align: center;
+  transition: color 0.3s ease;
+  flex: 1;
+}
+
+.nav-item:hover {
+  color: #6c5ce7;
+}
+
+.nav-item.active {
+  color: #6c5ce7;
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  .app {
+    padding: 16px;
+  }
+
+  .topbar h1 {
+    font-size: 20px;
+  }
+
+  .balance-card h2 {
+    font-size: 28px;
+  }
+
+  .action-card input {
+    flex: 0 0 70px;
+  }
+    }
