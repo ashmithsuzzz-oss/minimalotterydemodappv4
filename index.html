@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Minima Lottery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div>
+      <h1>🎲 Minima Lottery</h1>
+      <p id="walletStatus">Checking wallet...</p>
+    </div>
+    <div class="avatar" id="avatar">🟣</div>
+  </div>
+
+  <!-- INFO SECTION -->
+  <div class="info-card">
+    <h3>How It Works</h3>
+    <p>Buy lottery tickets with MINIMA tokens. The more tickets you buy, the higher your chances of winning the prize pool. Winners are drawn automatically at each draw cycle.</p>
+  </div>
+
+  <!-- BALANCE CARD -->
+  <div class="balance-card">
+    <p class="label">Prize Pool</p>
+    <h2 id="prizePool">0 MINIMA</h2>
+    <p class="subtext" id="participantCount">0 participants</p>
+  </div>
+
+  <!-- ACTION -->
+  <div class="action-card">
+    <input type="number" id="ticketAmount" min="1" max="100" value="1" placeholder="Tickets">
+    <button onclick="buyTicket()" id="buyBtn">Buy Ticket</button>
+  </div>
+
+  <!-- TIMER -->
+  <div class="card">
+    <p class="label">Next Draw</p>
+    <h2 id="timer">23:59:59</h2>
+    <p class="subtext">Draws happen every 24 hours</p>
+  </div>
+
+  <!-- ENTRIES -->
+  <div class="card">
+    <div class="row">
+      <h3>Recent Entries</h3>
+      <span id="entryCount" class="badge">0</span>
+    </div>
+    <ul id="entries"></ul>
+  </div>
+
+  <!-- YOUR STATS -->
+  <div class="card">
+    <h3>Your Tickets</h3>
+    <p id="yourStats">0 tickets purchased</p>
+    <p class="subtext">Win probability: <span id="winProbability">0%</span></p>
+  </div>
+
+  <!-- WINNER DISPLAY -->
+  <div id="winnerPopup" class="modal hidden">
+    <div class="modal-content">
+      <span class="close" onclick="closeWinner()">&times;</span>
+      <h2>🏆 Winner Announcement</h2>
+      <p id="winnerText"></p>
+      <p id="winnerAmount"></p>
+      <button onclick="closeWinner()">Close</button>
+    </div>
+  </div>
+
+  <!-- STATUS MESSAGE -->
+  <div id="statusMessage" class="status-message hidden"></div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="nav">
+  <div class="nav-item active" onclick="switchTab('home')">🏠 Home</div>
+  <div class="nav-item" onclick="switchTab('tickets')">🎟 My Tickets</div>
+  <div class="nav-item" onclick="switchTab('winners')">🏆 Winners</div>
+  <div class="nav-item" onclick="switchTab('info')">ℹ️ Info</div>
+</div>
+
+<!-- ADDITIONAL TABS (Hidden) -->
+<div id="tickets-tab" class="tab hidden">
+  <div class="topbar">
+    <h1>My Tickets</h1>
+  </div>
+  <div class="card">
+    <p id="myTicketsList">Loading your tickets...</p>
+  </div>
+</div>
+
+<div id="winners-tab" class="tab hidden">
+  <div class="topbar">
+    <h1>Past Winners</h1>
+  </div>
+  <div class="card">
+    <ul id="winnersList"></ul>
+  </div>
+</div>
+
+<div id="info-tab" class="tab hidden">
+  <div class="topbar">
+    <h1>About Lottery</h1>
+  </div>
+  <div class="card">
+    <h3>Ticket Price: 1 MINIMA</h3>
+    <p>Each ticket costs 1 MINIMA token. Purchase as many as you'd like to increase your chances.</p>
+    
+    <h3>Prize Pool</h3>
+    <p>100% of ticket sales go into the prize pool. Winners are selected randomly proportional to their ticket count.</p>
+    
+    <h3>Draw Schedule</h3>
+    <p>Draws happen automatically every 24 hours. Winners are announced immediately.</p>
+    
+    <h3>How to Win</h3>
+    <p>Your win probability = Your Tickets / Total Tickets. More tickets = better odds!</p>
+  </div>
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
