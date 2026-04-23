@@ -164,8 +164,52 @@ function loadPixels() {
 
             if (!coin.state) continue;
 
-            let pos = coin.state[0];
-            let color = coin.state[1];
+            function loadPixels() {
+
+    console.log("Loading from:", ADDRESS);
+
+    MINIMASK.meg.listcoins(ADDRESS, "0x00", "", function (resp) {
+
+        console.log("RAW:", resp);
+
+        pixels = {};
+
+        if (!resp || !resp.data) {
+            createGrid();
+            return;
+        }
+
+        for (let coin of resp.data) {
+
+            if (!coin.state) continue;
+
+            // 🔥 loop all state keys
+            for (let key in coin.state) {
+
+                let raw = coin.state[key];
+
+                if (!raw) continue;
+
+                try { raw = decodeURI(raw); } catch {}
+
+                // split "x,y|color"
+                const parts = String(raw).split("|");
+
+                if (parts.length >= 2) {
+
+                    const pos = parts[0];
+                    const color = parts[1];
+
+                    pixels[pos] = "#" + color;
+                }
+            }
+        }
+
+        console.log("PIXELS:", pixels);
+
+        createGrid();
+    });
+            }
 
             if (!pos || !color) continue;
 
