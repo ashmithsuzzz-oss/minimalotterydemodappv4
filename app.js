@@ -1,13 +1,11 @@
 // ===============================
 // ⚙ CONFIG
 // ===============================
-const APP_ADDRESS = "0xA7F3C9B2E8D641";
-const FEE = 0.0000001;
+const ADDRESS = "MxG086HDR94WWW3ZJE24E807D5SQ7F5WUDQFNN9N221P89D698ZET9YK8832YJQ";
+const PRICE = 0.0000001;
 
-let entries = [];
-
-// DOM
-let walletStatus, entriesList, verifyResult;
+let pixels = {};
+let grid;
 
 
 // ===============================
@@ -15,60 +13,92 @@ let walletStatus, entriesList, verifyResult;
 // ===============================
 window.onload = function () {
 
-    walletStatus = document.getElementById("walletStatus");
-    entriesList = document.getElementById("entries");
-    verifyResult = document.getElementById("verifyResult");
-
     if (typeof MINIMASK !== "undefined") {
 
         MINIMASK.init(function (msg) {
 
+            console.log("MiniMask:", msg);
+
             if (msg.event === "MINIMASK_INIT") {
 
-                if (!msg.data.data.loggedon) {
-                    walletStatus.innerText = "❌ Not logged in";
+                if (!msg.data || !msg.data.data || !msg.data.data.loggedon) {
+                    document.getElementById("status").innerText = "❌ Not logged in";
                     return;
                 }
 
-                walletStatus.innerText = "✅ Connected";
-                loadData();
+                document.getElementById("status").innerText = "✅ Connected";
+
+                loadPixels();
+            }
+
+            if (msg.event === "MINIMASK_PENDING") {
+                setTimeout(loadPixels, 6000);
             }
         });
 
     } else {
-        walletStatus.innerText = "❌ MiniMask not found";
+        document.getElementById("status").innerText = "❌ MiniMask not found";
     }
+
+    createGrid();
 };
 
 
-// ===============================
-// 🔐 SAVE DATA
-// ===============================
-function saveData() {
 
-    const text = document.getElementById("dataInput").value;
+// ===============================
+// 🎨 CREATE GRID
+// ===============================
+function createGrid() {
 
-    if (!text) {
-        alert("Enter something");
-        return;
+    grid = document.getElementById("grid");
+    grid.innerHTML = "";
+
+    for (let y = 0; y < 10; y++) {
+        for (let x = 0; x < 10; x++) {
+
+            const div = document.createElement("div");
+            div.className = "pixel";
+
+            const key = x + "," + y;
+
+            if (pixels[key]) {
+                div.style.background = pixels[key];
+            }
+
+            div.onclick = () => paintPixel(x, y);
+
+            grid.appendChild(div);
+        }
     }
+}
 
-    const time = new Date().toISOString();
+
+
+// ===============================
+// 💸 PAINT PIXEL (PAY TO DRAW)
+// ===============================
+function paintPixel(x, y) {
+
+    const color = document.getElementById("colorPicker").value;
 
     const state = {};
-    state[0] = text;
-    state[1] = time;
+    state[0] = x + "," + y;
+    state[1] = color;
 
     MINIMASK.account.send(
-        FEE,
-        APP_ADDRESS,
+        PRICE,
+        ADDRESS,
         "0x00",
         state,
         function (resp) {
 
+            console.log("Send:", resp);
+
             if (resp.pending) {
-                alert("Saved! Approve in MiniMask");
-                setTimeout(loadData, 5000);
+                alert("Approve payment in MiniMask");
+
+                setTimeout(loadPixels, 5000);
+
             } else {
                 alert("Error: " + (resp.error || "Unknown"));
             }
@@ -77,18 +107,22 @@ function saveData() {
 }
 
 
-// ===============================
-// 📥 LOAD DATA
-// ===============================
-function loadData() {
 
-    MINIMASK.meg.listcoins(APP_ADDRESS, "0x00", "", function (resp) {
+// ===============================
+// 📥 LOAD PIXELS FROM BLOCKCHAIN
+// ===============================
+function loadPixels() {
 
-        entries = [];
-        let html = "";
+    console.log("Loading pixels from:", ADDRESS);
+
+    MINIMASK.meg.listcoins(ADDRESS, "0x00", "", function (resp) {
+
+        console.log("RAW:", resp);
+
+        pixels = {};
 
         if (!resp || !resp.data) {
-            entriesList.innerHTML = "<li>No data</li>";
+            createGrid();
             return;
         }
 
@@ -96,48 +130,21 @@ function loadData() {
 
             if (!coin.state) continue;
 
-            const text = coin.state[0];
-            const time = coin.state[1];
+            const pos = coin.state[0];
+            const color = coin.state[1];
 
-            if (!text) continue;
+            if (!pos || !color) continue;
 
-            entries.push({ text, time });
-
-            html += `
-            <li>
-                📄 ${text}<br>
-                <small>${time}</small>
-            </li>`;
+            pixels[pos] = color;
         }
 
-        entriesList.innerHTML = html || "<li>No data yet</li>";
+        createGrid();
     });
 }
 
-
-// ===============================
-// 🔍 VERIFY DATA
-// ===============================
-function verifyData() {
-
-    const input = document.getElementById("verifyInput").value;
-
-    if (!input) {
-        verifyResult.innerText = "Enter something";
-        return;
-    }
-
-    const found = entries.find(e => e.text === input);
-
-    if (found) {
-        verifyResult.innerText = "✅ Verified! Exists since: " + found.time;
-    } else {
-        verifyResult.innerText = "❌ Not found on blockchain";
-    }
-}
 
 
 // ===============================
 // 🔄 AUTO REFRESH
 // ===============================
-setInterval(loadData, 10000);
+setInterval(loadPixels, 10000);
