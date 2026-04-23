@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Minima Wallet Lottery</title>
+  <title>Minima Lottery</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -22,26 +22,25 @@
   <!-- BALANCE CARD -->
   <div class="balance-card">
     <p class="label">Total Prize Pool</p>
-    <h2 id="prizePool">0.0000000 MINIMA</h2>
+    <h2 id="prizePool">0.00000000 MINIMA</h2>
     <p class="subtext">Ticket Price: 0.0000001 MINIMA</p>
   </div>
 
   <!-- ACTION -->
   <div class="action-card">
-    <input type="number" id="ticketCount" min="1" max="100" value="1" placeholder="Number of tickets">
-    <button id="buyBtn" onclick="buyTicket()">Buy Ticket</button>
+    <button onclick="buyTicket()">Buy Ticket</button>
   </div>
 
   <!-- TIMER -->
   <div class="card">
-    <p class="label">Next Draw</p>
+    <p class="label">Next Draw (24h)</p>
     <h2 id="timer">--:--:--</h2>
   </div>
 
   <!-- ENTRIES -->
   <div class="card">
     <div class="row">
-      <h3>Activity</h3>
+      <h3>Tickets</h3>
       <span id="entryCount">0</span>
     </div>
     <ul id="entries"></ul>
@@ -50,9 +49,17 @@
   <!-- STATS -->
   <div class="card">
     <h3>Your Stats</h3>
-    <p id="yourStats">0 tickets</p>
+    <p id="yourStats">Not connected</p>
   </div>
 
+</div>
+
+<!-- WINNER POPUP -->
+<div id="winnerPopup" class="modal hidden">
+  <div class="modal-content">
+    <h2 id="winnerText">🎉 Winner!</h2>
+    <button onclick="document.getElementById('winnerPopup').classList.add('hidden')">Close</button>
+  </div>
 </div>
 
 <!-- BOTTOM NAV -->
